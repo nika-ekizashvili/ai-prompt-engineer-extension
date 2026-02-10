@@ -9,7 +9,8 @@
   ],
   "host_permissions": [
     "https://chat.openai.com/*",
-    "https://chatgpt.com/*"
+    "https://chatgpt.com/*",
+    "<all_urls>"
   ],
   "background": {
     "service_worker": "background.js",
@@ -21,6 +22,11 @@
         "https://chat.openai.com/*",
         "https://chatgpt.com/*"
       ],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["<all_urls>"],
       "js": ["content.js"],
       "run_at": "document_end"
     }
