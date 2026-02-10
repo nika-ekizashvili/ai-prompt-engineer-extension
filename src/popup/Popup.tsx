@@ -169,20 +169,33 @@ export const Popup: React.FC = () => {
 
         {/* Usage Instructions */}
         <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-          <h3 className="font-semibold text-sm text-text-primary">How to Use:</h3>
-          <ol className="text-sm text-text-secondary space-y-2 list-decimal list-inside">
-            <li>Go to ChatGPT or any supported chat interface</li>
-            <li>Type your rough prompt in the input field</li>
-            <li className="flex items-center gap-1">
-              Press{' '}
-              <kbd className="px-2 py-1 bg-white border rounded text-xs font-mono">Cmd</kbd>
-              {' + '}
-              <kbd className="px-2 py-1 bg-white border rounded text-xs font-mono">Shift</kbd>
-              {' + '}
-              <kbd className="px-2 py-1 bg-white border rounded text-xs font-mono">K</kbd>
-            </li>
-            <li>Watch your prompt get enhanced by AI! ✨</li>
-          </ol>
+          <h3 className="font-semibold text-sm text-text-primary">Keyboard Shortcuts:</h3>
+          <div className="text-sm text-text-secondary space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <kbd className="px-2 py-1 bg-white border rounded text-xs font-mono">Cmd</kbd>
+                <span>+</span>
+                <kbd className="px-2 py-1 bg-white border rounded text-xs font-mono">Shift</kbd>
+                <span>+</span>
+                <kbd className="px-2 py-1 bg-white border rounded text-xs font-mono">K</kbd>
+              </div>
+              <span className="text-xs">Format prompt with AI</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <kbd className="px-2 py-1 bg-white border rounded text-xs font-mono">Cmd</kbd>
+                <span>+</span>
+                <kbd className="px-2 py-1 bg-white border rounded text-xs font-mono">Shift</kbd>
+                <span>+</span>
+                <kbd className="px-2 py-1 bg-white border rounded text-xs font-mono">V</kbd>
+              </div>
+              <span className="text-xs">Read selected text (TTS)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <kbd className="px-2 py-1 bg-white border rounded text-xs font-mono">Esc</kbd>
+              <span className="text-xs">Stop reading</span>
+            </div>
+          </div>
         </div>
 
         {/* Footer Links */}

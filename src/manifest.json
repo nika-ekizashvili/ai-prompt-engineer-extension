@@ -45,6 +45,13 @@
         "mac": "Command+Shift+K"
       },
       "description": "Format the current prompt with AI"
+    },
+    "text-to-speech": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+V",
+        "mac": "Command+Shift+V"
+      },
+      "description": "Read selected text aloud"
     }
   }
 }

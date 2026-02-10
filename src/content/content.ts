@@ -208,14 +208,86 @@ const formatPrompt = async (): Promise<void> => {
 };
 
 /**
+ * Text-to-Speech functionality
+ */
+let currentSpeech: SpeechSynthesisUtterance | null = null;
+
+const speakText = (text: string): void => {
+  // Stop any current speech
+  window.speechSynthesis.cancel();
+
+  if (!text) {
+    showToast('No text selected!', 'error');
+    return;
+  }
+
+  // Create speech utterance
+  currentSpeech = new SpeechSynthesisUtterance(text);
+  currentSpeech.lang = 'en-US';
+  currentSpeech.rate = 1.0;
+  currentSpeech.pitch = 1.0;
+  currentSpeech.volume = 1.0;
+
+  // Event handlers
+  currentSpeech.onstart = () => {
+    console.log('🔊 Started speaking');
+    showToast('🔊 Reading text...', 'success');
+  };
+
+  currentSpeech.onend = () => {
+    console.log('✓ Finished speaking');
+    currentSpeech = null;
+  };
+
+  currentSpeech.onerror = (event) => {
+    console.error('Speech error:', event);
+    showToast('Speech error occurred', 'error');
+    currentSpeech = null;
+  };
+
+  // Start speaking
+  window.speechSynthesis.speak(currentSpeech);
+};
+
+const stopSpeaking = (): void => {
+  if (window.speechSynthesis.speaking) {
+    window.speechSynthesis.cancel();
+    showToast('🔇 Speech stopped', 'success');
+  }
+};
+
+/**
  * Keyboard shortcut handler
  */
 const handleKeyboardShortcut = (event: KeyboardEvent): void => {
-  // Ctrl+Shift+K (Windows/Linux) or Cmd+Shift+K (Mac)
+  // Cmd+Shift+K - Format prompt
   if ((event.ctrlKey || event.metaKey) && event.shiftKey && (event.key === 'K' || event.key === 'k')) {
     event.preventDefault();
-    console.log('→ Keyboard shortcut triggered');
+    console.log('→ Format shortcut triggered');
     formatPrompt();
+    return;
+  }
+
+  // Cmd+Shift+V - Text to speech
+  if ((event.ctrlKey || event.metaKey) && event.shiftKey && (event.key === 'V' || event.key === 'v')) {
+    event.preventDefault();
+    console.log('→ TTS shortcut triggered');
+    
+    // Get selected text
+    const selectedText = window.getSelection()?.toString().trim();
+    
+    if (selectedText) {
+      speakText(selectedText);
+    } else {
+      showToast('Please select some text first!', 'error');
+    }
+    return;
+  }
+
+  // Escape - Stop speaking
+  if (event.key === 'Escape' && window.speechSynthesis.speaking) {
+    event.preventDefault();
+    stopSpeaking();
   }
 };
 
@@ -223,7 +295,10 @@ const handleKeyboardShortcut = (event: KeyboardEvent): void => {
  * Initialize content script
  */
 const init = (): void => {
-  console.log('✓ AI Prompt Engineer loaded - Press Cmd+Shift+K to format');
+  console.log('✓ AI Prompt Engineer loaded');
+  console.log('  → Cmd+Shift+K: Format prompt');
+  console.log('  → Cmd+Shift+V: Read selected text (TTS)');
+  console.log('  → Escape: Stop reading');
   
   // Add keyboard listener
   document.addEventListener('keydown', handleKeyboardShortcut);
